@@ -18,6 +18,7 @@ int main(int argc, char** argv){
 	int cycle = 0;
 	int imp;
 	int STR_MEM_LOC;
+	int STR_CYC_CYL;
 	unsigned char temp_mem;
 	egg(code);
 	while (pointer < tape_length){
@@ -30,20 +31,20 @@ int main(int argc, char** argv){
 		} else {
 			index++;
 		}
-		if (cycle > 10){
+		if (cycle > 12){
 			cycle = 0;
-		}
+		} 
 		switch(code[index]){
 				case ('o'):
 					cycle++;
-					break;
+					break;    
 				case ('r'):
 						switch (cycle){
 							case 0:
 								return 0;							//Zero, ends program
 								break;
 							case 1:
-								printf("%d \n", temp_mem);		//equivalent to BF "."
+								printf("%c", temp_mem);		//equivalent to BF "."
 								break;
 							case 2:
 								pointer++;							//equivalent to > in BF
@@ -63,9 +64,11 @@ int main(int argc, char** argv){
 								break;
 							case 7:
 								STR_MEM_LOC = pointer;
+								STR_CYC_CYL = cycle;
 								break;
 							case 8:
 								if (tape[pointer] != 0){
+									cycle = STR_CYC_CYL;
 									pointer = STR_MEM_LOC;
 								} 
 								break;
@@ -75,9 +78,15 @@ int main(int argc, char** argv){
 							case 10:
 								tape[pointer] = temp_mem;
 								break;
+							case 11:
+								printf("%d \n", tape[pointer]);
+								break;
+							case 12:
+								Beep(temp_mem * 10, tape[pointer] * 10);
+								break;								
 						}
 					cycle++;
 					break;
-			} 
+			}       
 		}
 }
